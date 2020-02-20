@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="ProjectsScripts/Settings.js"></script>
+
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <title>Course handling - client</title>
+</head>
+<body>
+    <div>
+        <label id="lblNewCourseName">Indsæt nyt fag</label>
+        <input type="text" id="TxtNewCourseName"/>
+        <button class="btn btn-info btn-sm" id="BtnNewCourseName">Gem</button>
+
+    </div>
+    <h2 style="text-align: center">Her håndtere vi fag</h2>
+    <div class="table-responsive">
+        <table id="tblDynamic" class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Kursus ID</td>
+                    <td>Kursus fag</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
+                </tr>
+            </thead>
+            <tbody class="CourseData">
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+            GetCourseData();
+
+            const EditCourseNameClassName = "EditCourseName";
+            const DeleteCourseNameClassName = "DeleteCourseName";
+
+            function AddDataRowToTable(CourseID, CourseName) {
+
+                WorkString = "<tr class='CourseNames'>";
+
+                WorkString += "<td>";
+
+                WorkString += CourseID;
+
+                WorkString += "<td class='CourseName'>";
+
+                WorkString += CourseName;
+
+                WorkString += "<td>";
+
+                WorkString += "<button type='button'";
+
+                WorkString += "value='" + CourseID + "' ";
+
+                WorkString += "class='" + EditCourseNameClassName + "'";
+
+                WorkString += ">Ret kursus/fag Navn (" + CourseID + ") </button>";
+
+                WorkString += "<td>";
+
+                WorkString += "<button type='button'";
+
+                WorkString += "value='" + CourseID + "' ";
+
+                WorkString += "class='" + DeleteCourseNameClassName + "'";
+
+                WorkString += ">Slet kursus/fag Navn (" + CourseID + ") </button>";
+
+                WorkString += "</tr>";
+
+                $(".CourseData").append(WorkString);
+            }
+
+            function DecodejSONStudentData(jSonData) {
+
+                $.each(jSonData,
+                    function(key, item) {
+
+                        AddDataRowToTable(item.CourseID, item.CourseName);
+
+                    });
+
+            }
+
+            function GetCourseData() {
+                
+
+
+                $(".CourseData").empty();
+
+
+                $.ajax({
+                    url: WEB_API_URL_StudentData_Course,
+
+                    type: 'GET',
+
+                    dataType: "json",
+
+                    crossDomain: true,
+
+                    headers: {
+                        accept: "application/json",
+
+                    },
+
+                    success: function(data) {
+
+                        //On ajax success do this
+
+                        DecodejSONStudentData(data);
+
+                        //UpdatePagerForSide();
+
+                    },
+
+                    error: function(xhr, ajaxOptions, thrownError) {
+
+                        //On ajax error do this
+
+                        alert(xhr.status);
+
+                        alert(ajaxOptions);
+
+                        alert(thrownError);
+
+                    }
+
+                });
+
+
+            }
+
+            $("#BtnNewCourseName").click(function() {
+                if ($("#TxtNewCourseName").val().length > 3) {
+                    var CourseName = $("#TxtNewCourseName").val();
+                    var data = { CourseName: CourseName }
+
+                    $.ajax({
+                        url: WEB_API_URL_StudentData_Course + "?UserName=" + UserName + "&Password=" + Password,
+
+                        type: 'POST',
+
+                        data: JSON.stringify(data),
+
+                        dataType: 'json',
+
+                        headers: {
+                            accept: "application/json",
+
+                            "content-type": "application/json",
+
+                        },
+
+                        success: function(dataBack) {
+
+                            //On ajax success do this
+
+                            if (OperationOkHigherValueThanHere < dataBack) {
+
+                                AddDataRowToTable(dataBack, CourseName);
+
+                                $("#txtNewCourseName").val("");
+
+                                // Og herunder er der vist lidt TypeScript kode.
+
+                                //PrintTypeScriptCourseObjectsInArray();
+
+                            }
+
+                            //else {
+
+                            //    alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle gemmes
+                            //        < strong style = "color:red;" > !Fejlnummeret er : " + dataBack + ".Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
+                            //}
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            //On ajax error do this
+                            alert(xhr.status);
+                            alert(ajaxOptions);
+                            alert(thrownError);
+                        }
+                    });
+                }
+            });
+        }
+    );
+
+     
+    
+</script>
