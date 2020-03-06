@@ -191,8 +191,65 @@
             });
 
             $('body').on('click', '.' + EditCourseNameClassName, function () {
+                if ($("#TxtNewCourseName").val().length > 3) {
+                    var CourseName = $("#TxtNewCourseName").val();
+                    var data = { CourseName: CourseName }
+                    CourseId = $(this).val();
 
+                    $.ajax({
+                        url: WEB_API_URL_StudentData_Course +
+                            "?Id=" +
+                            CourseId +
+                            "&UserName=" +
+                            UserName +
+                            "&Password=" +
+                            Password,
+
+                        type: 'PUT',
+
+                        data: JSON.stringify(data),
+
+                        dataType: 'json',
+
+                        headers: {
+                            accept: "application/json",
+
+                            "content-type": "application/json",
+
+                        },
+
+                        success: function(dataBack) {
+
+                            //On ajax success do this
+
+                            if (OperationOkHigherValueThanHere < dataBack) {
+
+                                AddDataRowToTable(dataBack, CourseName);
+
+                                $("#txtNewCourseName").val("");
+
+                                // Og herunder er der vist lidt TypeScript kode.
+
+                                //PrintTypeScriptCourseObjectsInArray();
+
+                            }
+
+                            //else {
+
+                            //    alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle gemmes
+                            //        < strong style = "color:red;" > !Fejlnummeret er : " + dataBack + ".Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
+                            //}
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            //On ajax error do this
+                            alert(xhr.status);
+                            alert(ajaxOptions);
+                            alert(thrownError);
+                        }
+                    });
+                }
             });
+            
 
         $('body').on('click', '.' + DeleteCourseNameClassName, function () {
             courseId = $(this).val();
@@ -203,8 +260,6 @@
                     url: WEB_API_URL_StudentData_Course + "?Id=" + courseId + "&UserName=" + UserName + "&Password=" + Password,
 
                     type: 'DELETE',
-
-                    //data: JSON.stringify(data),
 
                     dataType: 'json',
 
