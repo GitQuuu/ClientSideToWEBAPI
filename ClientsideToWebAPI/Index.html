@@ -197,13 +197,7 @@
                     CourseId = $(this).val();
 
                     $.ajax({
-                        url: WEB_API_URL_StudentData_Course +
-                            "?Id=" +
-                            CourseId +
-                            "&UserName=" +
-                            UserName +
-                            "&Password=" +
-                            Password,
+                        url: WEB_API_URL_StudentData_Course + "?Id=" + CourseId + "&UserName=" + UserName + "&Password=" + Password,
 
                         type: 'PUT',
 
