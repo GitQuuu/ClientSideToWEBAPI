@@ -194,7 +194,47 @@
 
             });
 
-            $('body').on('click', '.' + DeleteCourseNameClassName, function () {
+        $('body').on('click', '.' + DeleteCourseNameClassName, function () {
+            courseId = $(this).val();
+            //alert(courseId);
+            CurrentRow = $(this).closest('tr');
+            if (confirm("Ønsker du at slette" + courseId)) {
+                $.ajax({
+                    url: WEB_API_URL_StudentData_Course + "?Id=" + courseId + "&UserName=" + UserName + "&Password=" + Password,
+
+                    type: 'DELETE',
+
+                    //data: JSON.stringify(data),
+
+                    dataType: 'json',
+
+                    headers: {
+                        accept: "application/json",
+
+                        "content-type": "application/json",
+
+                    },
+
+                    success: function(dataBack) {
+
+                        //On ajax success do this
+
+                        if (OperationOkHigherValueThanHere < dataBack) {
+
+                            CurrentRow.remove();
+
+                        }
+
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        //On ajax error do this
+                        alert(xhr.status);
+                        alert(ajaxOptions);
+                        alert(thrownError);
+                    }
+                });
+            }
+
 
             });
         }

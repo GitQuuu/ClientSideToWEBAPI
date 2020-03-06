@@ -52,7 +52,6 @@ C:\Users\Quanv\source\repos\ClientsideToWebAPI\ClientsideToWebAPI\bin\roslyn\VBC
 C:\Users\Quanv\source\repos\ClientsideToWebAPI\ClientsideToWebAPI\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\Quanv\source\repos\ClientsideToWebAPI\ClientsideToWebAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\Quanv\source\repos\ClientsideToWebAPI\ClientsideToWebAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Quanv\source\repos\ClientsideToWebAPI\ClientsideToWebAPI\obj\Debug\ClientsideToWebAPI.csprojAssemblyReference.cache
 C:\Users\Quanv\source\repos\ClientsideToWebAPI\ClientsideToWebAPI\obj\Debug\ClientsideToWebAPI.csproj.CopyComplete
 C:\Users\Quanv\source\repos\ClientsideToWebAPI\ClientsideToWebAPI\obj\Debug\ClientsideToWebAPI.dll
 C:\Users\Quanv\source\repos\ClientsideToWebAPI\ClientsideToWebAPI\obj\Debug\ClientsideToWebAPI.pdb
